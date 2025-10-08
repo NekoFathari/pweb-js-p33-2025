@@ -12,7 +12,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
   // Validasi input
   if (!username || !password) {
-    message.textContent = '⚠️ Username dan password tidak boleh kosong.';
+    message.textContent = '⚠️ Username and password cannot be empty.';
     loading.classList.add('hidden');
     return;
   }
@@ -30,15 +30,15 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
 
     if (!user) {
-      message.textContent = '❌ Username tidak ditemukan.';
+      message.textContent = '❌ Username not found.';
     } else {
       // Password harus sesuai dengan dummy JSON
       if (password === '') {
-        message.textContent = '⚠️ Password tidak boleh kosong.';
+        message.textContent = '⚠️ The password cannot be empty.';
       } else if (user.password === password) {
         // Simpan data user ke localStorage
         localStorage.setItem('firstName', user.firstName);
-        message.textContent = `✅ Login berhasil! Selamat datang, ${user.firstName}.`;
+        message.textContent = `✅ Login successful! Welcome, ${user.firstName}.`;
 
         // Redirect ke recipes page setelah 1.5 detik
         setTimeout(() => {
