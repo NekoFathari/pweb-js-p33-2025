@@ -4,22 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Recipe Collection</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
     /* Recipes Page Specific Styles */
     body {
       background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      min-height: 100vh;
       margin: 0;
-      padding: 0;
+      padding-top: 0vmin;
       font-family: Arial, sans-serif;
+      width: 100%;
+      align-items: center;
+      display: flex;
+      justify-content: center;
     }
 
     .recipes-container {
-      max-width: 1200px;
+      width: 70%;
       margin: 0 auto;
       padding: 20px;
-      min-height: 100vh;
     }
 
     .navbar {
@@ -85,7 +86,7 @@
 
     .recipes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
       margin-bottom: 2rem;
     }
@@ -334,17 +335,15 @@
 </head>
 <body>
   <div class="recipes-container">
-    <!-- Navigation Bar -->
-    <nav class="navbar">
+    <!-- Navigation Bar & Controls -->
+    <nav class="navbar" style="position: sticky; top: 0; z-index: 10;">
       <h1>🍳 Recipe Collection</h1>
       <div class="user-section">
         <span>Welcome, <strong id="user-name">User</strong></span>
         <button id="logout-btn">Logout</button>
       </div>
     </nav>
-
-    <!-- Search and Filter -->
-    <div class="controls">
+    <div class="controls" style="position: sticky; top: 5rem; z-index:10;">
       <input type="text" id="search-input" placeholder="Search recipes by name, cuisine, ingredients...">
       <select id="cuisine-filter">
         <option value="">All Cuisines</option>
@@ -358,9 +357,9 @@
     </div>
 
     <!-- Recipes Grid -->
-    <div id="recipes-container" class="recipes-grid"></div>
+    <div id="recipes-container" class="recipes-grid" style="position: relative; padding-bottom: 5rem;"></div>
 
-    <!-- Show More Button -->
+<!-- Show More Button -->
     <div class="load-more-container">
       <button id="show-more-btn" class="hidden">Show More Recipes</button>
     </div>
@@ -368,4 +367,4 @@
 
   <script src="recipes.js"></script>
 </body>
-</html>
+</html></div>
