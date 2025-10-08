@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipe Collection</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Recipes Page Specific Styles */
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .recipes-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      border-radius: 12px;
+    }
+
+    .navbar h1 {
+      color: #e96b00;
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    #logout-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    #logout-btn:hover {
+      background-color: #c82333;
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    #search-input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    #cuisine-filter {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      min-width: 150px;
+      font-size: 1rem;
+      background: white;
+    }
+
+    .recipes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .recipe-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .recipe-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .recipe-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .recipe-content {
+      padding: 1.5rem;
+    }
+
+    .recipe-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .recipe-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .recipe-meta span {
+      background: #f8f9fa;
+      padding: 0.3rem 0.6rem;
+      border-radius: 15px;
+    }
+
+    .rating {
+      color: #ffc107;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .ingredients {
+      margin-bottom: 1rem;
+    }
+
+    .ingredients strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .ingredients ul {
+      margin: 0.5rem 0 0 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .ingredients li {
+      margin-bottom: 0.2rem;
+    }
+
+    .view-recipe-btn {
+      background-color: #e96b00;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .view-recipe-btn:hover {
+      background-color: #d45f00;
+    }
+
+    .load-more-container {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    #show-more-btn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    #show-more-btn:hover {
+      background-color: #218838;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .error {
+      text-align: center;
+      padding: 2rem;
+      color: #dc3545;
+      grid-column: 1 / -1;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+      grid-column: 1 / -1;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    /* Modal Styles */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .close {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #666;
+    }
+
+    .close:hover {
+      color: #333;
+    }
+
+    .recipe-details {
+      margin-top: 1rem;
+    }
+
+    .recipe-details h3 {
+      color: #e96b00;
+      margin: 1.5rem 0 0.5rem 0;
+      border-bottom: 2px solid #e96b00;
+      padding-bottom: 0.5rem;
+    }
+
+    .recipe-details ul, .recipe-details ol {
+      margin-left: 1.5rem;
+      color: #555;
+    }
+
+    .recipe-details li {
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+      grid-column: 1 / -1;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #e96b00;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 1rem;
+      }
+      
+      .controls {
+        flex-direction: column;
+      }
+      
+      .recipes-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .modal-content {
+        margin: 1rem;
+        max-height: 85vh;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="recipes-container">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <h1>🍳 Recipe Collection</h1>
+      <div class="user-section">
+        <span>Welcome, <strong id="user-name">User</strong></span>
+        <button id="logout-btn">Logout</button>
+      </div>
+    </nav>
+
+    <!-- Search and Filter -->
+    <div class="controls">
+      <input type="text" id="search-input" placeholder="Search recipes by name, cuisine, ingredients...">
+      <select id="cuisine-filter">
+        <option value="">All Cuisines</option>
+      </select>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <p>Loading delicious recipes...</p>
+    </div>
+
+    <!-- Recipes Grid -->
+    <div id="recipes-container" class="recipes-grid"></div>
+
+    <!-- Show More Button -->
+    <div class="load-more-container">
+      <button id="show-more-btn" class="hidden">Show More Recipes</button>
+    </div>
+  </div>
+
+  <script src="recipes.js"></script>
+</body>
+</html>
