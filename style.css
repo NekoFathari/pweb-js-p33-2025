@@ -1,10 +1,27 @@
 body {
   font-family: Arial, sans-serif;
-  background: #fff8f0;
+  /* Tambahan background foto makanan soft */
+  background-image: url('https://i.pinimg.com/1200x/1d/3f/60/1d3f60d5b1ae11bfc8aa92f769bfe95a.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(228, 210, 210, 0.159); /* overlay agar teks terbaca */
+  z-index: -1;
 }
 
 .login-container {
@@ -25,7 +42,7 @@ input {
 }
 
 button {
-  background-color: #ff7b00;
+  background-color: #e96b00;
   color: white;
   border: none;
   padding: 10px;
@@ -36,7 +53,7 @@ button {
 }
 
 button:hover {
-  background-color: #e96b00;
+  background-color: #e96d006a;
 }
 
 #message {
